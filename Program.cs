@@ -19,6 +19,24 @@
             //Typically held in Gen1 and Gen2
             //Less frequent checks by garbage collector
 
+            //create short-lived objects & demonstarte Gen 0 Collection
+            CreateGenerationObjects();
+            Console.WriteLine($"Gen 0 ) has been collected {GC.CollectionCount(0)}times. ");
+
+            //Force Garbage Collection for Gen 0
+            GC.Collect(0);
+            Console.WriteLine($"Gen 0 ) has been collected {GC.CollectionCount(0)}times. ");
+
+            //Create additional short-lived objects & demonstarte Gen 1 collection
+            CreateGenerationObjects();
+            Console.WriteLine($"Gen 1 ) has been collected {GC.CollectionCount(0)}times. ");
+
+            //create long-lived objects, typically allocated to Gen 2
+            CreateLongLivedObject();
+            GC.Collect(2);
+            Console.WriteLine($"Gen 2 ) has been collected {GC.CollectionCount(0)}times. ");
+
+
         }//static void Main() end
         static void CreateGenerationObjects()
         {//static void CreateGenerationObjects()
@@ -28,5 +46,11 @@
                 //This method creates 1000 objects for 1kb each will be allocated to Generation 0
             }//for
         }//static void CreateGenerationObjects()
+        static void CreateLongLivedObject()
+        {
+            //create a long lived object of 10MB
+            var longLivedObj = new byte[1024 * 1024 * 10];//10MB
+
+        }
     }//class Program ends
 }//namespace ends
